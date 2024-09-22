@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(MeowShell LANGUAGES CXX)
+project(meow-shell)
+
+set(CMAKE_CXX_STANDARD)
 
 set(SOURCE src/main.c++)
 
