@@ -29,33 +29,17 @@ void meow_loop(void) {
 
 char *meow_read_line(void)
 {
-  int bufsize = MEOW_RL_BUFSIZE;
-  int position = 0;
-  char *buffer = malloc(sizeof(char) * bufsize);
-  int c;
+  char *line = NULL;
+  size_t bufsize = 0;
 
-  if (!buffer) {
-    fprintf(stderr, "meow: allocation error\n");
-    exit(1);
-  }
-
-  while(1) {
-    if (c == EOF || c == '\n') {
-      buffer[position] = '\0';
-      return buffer;
-    } else {
-      buffer[position] = c;
-    }
-    position++;
-
-    if(position >= bufsize) {
-      bufsize += MEOW_RL_BUFSIZE;
-      buffer = realloc(buffer, bufsize);
-
-      if (!buffer) {
-        fprintf(stderr, "meow: allocation error\n");
-        exit(1);
-      }
+  if (getline(&line, &bufsize, stdin) == -1){
+    if (feof(stdin)) {
+      exit(1);
+    } else  {
+      perror("readline");
+      exit(0);
     }
   }
+
+  return line;
 }
